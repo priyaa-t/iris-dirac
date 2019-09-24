@@ -1,0 +1,1 @@
+docker commit complete_dirac_install iris-dirac:dirac

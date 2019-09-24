@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+# Generate pem files
+mkdir -p $PWD/.globus
+if [ ! -e "$PWD/.globus/userkey.pem" ]; then
+	openssl pkcs12 -in cert.p12 -clcerts -nokeys -out $PWD/.globus/usercert.pem
+	openssl pkcs12 -in cert.p12 -nocerts -out $PWD/.globus/userkey.pem
+	chmod 0400 $PWD/.globus/userkey.pem
+fi
+
+# Install DIRAC
+source /usr/local/gridpp-dirac/bashrc
+dirac-proxy-init -x -C $PWD/.globus/usercert.pem -K $PWD/.globus/userkey.pem # (needs user cert password)
+dirac-configure -F -S GridPP -C dips://dirac01.grid.hep.ph.ic.ac.uk:9135/Configuration/Server -I
+dirac-proxy-init -g skatelescope.eu_user -M -C $PWD/.globus/usercert.pem -K $PWD/.globus/userkey.pem 
+
+echo "source /usr/local/gridpp-dirac/bashrc" >> $PWD/.bashrc
+echo "alias setup-grid-proxy='dirac-proxy-init -g skatelescope.eu_user -M'" >> $PWD/.bashrc
