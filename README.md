@@ -1,7 +1,7 @@
 1. Build the image from the Dockerfile provided with 
 `docker build -t iris-dirac .` 
 or pull from dockerhub
-`dockerhub...`
+`docker pull rohinijoshi/iris-dirac:latest`
 2. The centos_home directory serve as your user's home directory inside the container, we will mount this directory when running the container
 3. Copy your grid certificate (.p12 file) into this directory named as cert.p12
 4. Run container as root with a name so we can commit it after our changes are made
