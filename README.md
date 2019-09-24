@@ -1,46 +1,20 @@
-# iris-ui
-CentOS 7 Docker image with DIRAC, Grid and OpenStack clients
-
-
-The resulting image contains the following families of clients:
-
-openstack - general purpose OpenStack client for creating images, managing
-   VMs etc
-
-dirac-wms-job-submit, dirac-dms-lfn-replicas, etc - commands for managing jobs,
-   data files, and replica catalogs through DIRAC (eg the GridPP DIRAC Service)
-
-xrdcp, xrdls etc - commands for interacting with xroot storage services
-
-lcg-cp, lcg-ls etc - WLCG storage commands, including SRMs
-
-davix-get etc - WLCG commands for accessing WebDAV storage services
-
-arcsub, arcproxy etc - commands for managing jobs on ARC Compute Elements, 
-   including creating VOMS proxies
-
-To enable the Grid and DIRAC commands (which use a different Python version)
-execute the command grid-setup.
-
-The editors emacs, nano, joe, and vi are also available.
-
-------
-
-To build: clone this repo, put a valid proxy of a member of the GridPP DIRAC
-Service into the file x509proxy (no VOMS extensions required) and then execute
-
-make push
-
-------
-
-To create a container from the image, it is recommended to mount a volume
-at /home/user with the files you write. This should make it easier to move
-to newer versions of the image whilst retaining your own files.
-
-On Linux or macOS, a command like this may be used to create and enter
-an iris-ui Docker container as a non-privileged user:
-
-docker run --user user --tty --interactive \
-  --volume $HOME/iris-ui-home:/home/user \
-  --workdir /home/user irisacuk/iris-ui:latest /bin/bash --login
-
+1. Build the image from the Dockerfile provided with 
+`docker build -t iris-dirac .` 
+or pull from dockerhub
+`dockerhub...`
+2. The centos_home directory serve as your user's home directory inside the container, we will mount this directory when running the container
+3. Copy your grid certificate (.p12 file) into this directory
+4. Run container as root with a name so we can commit it after our changes are made
+   Here my local directory is /Users/r.joshi/Projects/docker/iris-test-case/centos-home/
+`docker run --tty --interactive --volume /Users/r.joshi/Projects/docker/iris-test-case/centos-home/:/home/user --workdir /home/user --name complete_dirac_install iris-dirac /bin/bash`
+5. Run setup script once inside the container (will require grid certificate password multiple times)
+`./setup-grid-tools`
+6. In a separate terminal, from outside the container, commit the changes made by the setup script by running
+`./commit-me`
+7. Exit out of the container, and shell back in as a regular user to submit a test payload
+`docker run --user user --tty --interactive --volume /Users/r.joshi/Projects/docker/iris-test-case/centos-home/:/home/user --workdir /home/user iris-dirac:dirac /bin/bash`
+8. Run the following alias to set your grid proxy (short-lived x509 proxy) for auth
+`setup-grid-proxy`
+9. Execute the job-submit script 
+`cd centos-home/test-payload/
+./job-submit.py ` 
