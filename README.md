@@ -3,7 +3,7 @@
 or pull from dockerhub
 `dockerhub...`
 2. The centos_home directory serve as your user's home directory inside the container, we will mount this directory when running the container
-3. Copy your grid certificate (.p12 file) into this directory
+3. Copy your grid certificate (.p12 file) into this directory named as cert.p12
 4. Run container as root with a name so we can commit it after our changes are made
    Here my local directory is /Users/r.joshi/Projects/docker/iris-test-case/centos-home/
 `docker run --tty --interactive --volume /Users/r.joshi/Projects/docker/iris-test-case/centos-home/:/home/user --workdir /home/user --name complete_dirac_install iris-dirac /bin/bash`
