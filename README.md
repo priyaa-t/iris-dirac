@@ -17,6 +17,7 @@ or pull from dockerhub
 8. Run the following alias to set your grid proxy (short-lived x509 proxy) for auth
 `setup-grid-proxy`
 9. Execute the job-submit script 
-`cd centos-home/test-payload/`
+
+`cd test-payload/`
 
 `./job-submit.py ` 
