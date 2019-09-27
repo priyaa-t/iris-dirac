@@ -17,6 +17,31 @@ RUN yum -y install emacs \
                    pugixml \
                    wget \
                    vim
+# Install Singularity dependencies and Go
+RUN yum groupinstall -y 'Development Tools' && \
+    yum install -y \
+                openssl-devel \
+                libuuid-devel \
+                libseccomp-devel \
+                squashfs-tools
+RUN export VERSION=1.13.1 OS=linux ARCH=amd64 && \
+    wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz && \
+    tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz && \
+    rm go$VERSION.$OS-$ARCH.tar.gz && \
+    echo 'export PATH=/usr/local/go/bin:${PATH}' >> /etc/profile && \
+    source /etc/profile
+
+# Download Singularity
+RUN export VERSION-3.2.0 && \
+    wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && \
+    tar -xzf singularity-${VERSION}.tar.gz
+# Install Singularity
+RUN cd singularity && \
+    source /etc/profile && \
+    ./mconfig && \
+    make -C ./builddir && \
+    make -C ./builddir install
+
 RUN pip install future
 RUN mkdir /usr/local/gridpp-dirac && \
     cd /usr/local/gridpp-dirac && \

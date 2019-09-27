@@ -17,4 +17,8 @@ or pull from dockerhub
 `setup-grid-proxy`
 9. Execute the job-submit script 
 `cd centos-home/test-payload/
-./job-submit.py ` 
+./job-submit.py `
+
+If you want to use singularity inside the container, launch docker with the `--privileged` flag
+
+`docker run --user user --tty --interactive --privileged --volume /Users/r.joshi/Projects/docker/:/home/user --workdir /home/user iris-dirac:dirac /bin/bash`
