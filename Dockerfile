@@ -32,7 +32,7 @@ RUN export VERSION=1.13.1 OS=linux ARCH=amd64 && \
     source /etc/profile
 
 # Download Singularity
-RUN export VERSION-3.2.0 && \
+RUN export VERSION=3.2.0 && \
     wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && \
     tar -xzf singularity-${VERSION}.tar.gz
 # Install Singularity
