@@ -16,7 +16,9 @@ RUN yum -y install emacs \
                    python-pip \
                    pugixml \
                    wget \
-                   vim
+                   vim \
+                   sudo \
+                   gsi-openssh-clients
 # Install Singularity dependencies and Go
 RUN yum groupinstall -y 'Development Tools' && \
     yum install -y \
