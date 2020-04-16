@@ -19,6 +19,10 @@ RUN yum -y install emacs \
                    vim \
                    sudo \
                    gsi-openssh-clients
+
+#package for adding file to dirac
+RUN yum -y install boost-python
+
 # Install Singularity dependencies and Go
 RUN yum groupinstall -y 'Development Tools' && \
     yum install -y \
